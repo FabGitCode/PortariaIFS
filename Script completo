@@ -183,7 +183,7 @@ class Menu {
         String email = scanner.nextLine();
         System.out.println("Digite a matrícula do estudante: ");
         int matricula = scanner.nextInt();
-        scanner.nextLine();  // Consumir quebra de linha
+        scanner.nextLine();  
         System.out.println("Digite o email do responsável: ");
         String emailResponsavel = scanner.nextLine();
         System.out.println("O estudante tem autorização para sair sozinho? (true/false)");
@@ -208,7 +208,7 @@ class Menu {
     public void adicionarTurma(Scanner scanner) {
         System.out.println("Digite o ano da turma: ");
         int anoTurma = scanner.nextInt();
-        scanner.nextLine();  // Consumir quebra de linha
+        scanner.nextLine(); 
 
         System.out.println("Escolha um curso para a turma:");
         for (int i = 0; i < listaCursos.size(); i++) {
@@ -227,7 +227,7 @@ class Menu {
             System.out.println((i + 1) + ". Turma do curso " + listaTurmas.get(i).getCurso().getNome());
         }
         int escolhaTurma = scanner.nextInt();
-        scanner.nextLine();  // Consumir quebra de linha
+        scanner.nextLine();  
         Turma turma = listaTurmas.get(escolhaTurma - 1);
 
         System.out.println("Digite o dia da semana (ex: Segunda-feira): ");
@@ -276,7 +276,7 @@ public class Main {
 
         System.out.println("Digite a matrícula do estudante que deseja verificar a saída: ");
         int matricula = scanner.nextInt();
-        scanner.nextLine();  // Consumir quebra de linha
+        scanner.nextLine();  
 
         Estudante estudante = null;
         for (Estudante e : menu.getListaEstudantes()) {
