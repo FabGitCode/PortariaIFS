@@ -1,0 +1,318 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Classe Estudante
+class Estudante {
+    private String nome;
+    private String cpf;
+    private String email;
+    private int matricula;
+    private String emailResponsavel;
+    private boolean autorizacaoPais;
+
+    public Estudante(String nome, String cpf, String email, int matricula, String emailResponsavel, boolean autorizacaoPais) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.matricula = matricula;
+        this.emailResponsavel = emailResponsavel;
+        this.autorizacaoPais = autorizacaoPais;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getMatricula() {
+        return matricula;
+    }
+
+    public String getEmailResponsavel() {
+        return emailResponsavel;
+    }
+
+    public boolean isAutorizacaoPais() {
+        return autorizacaoPais;
+    }
+}
+
+
+
+
+
+
+
+
+// Classe Curso 
+class Curso {
+    private String codigo;
+    private String nome;
+    private boolean ativo;
+
+    public Curso(String codigo, String nome, boolean ativo) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.ativo = ativo;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+}
+
+
+
+
+
+
+
+// Classe Turma  
+class Turma {
+    private ArrayList<Estudante> estudantes;
+    private int anoTurma;
+    private Curso curso;
+
+    public Turma(int anoTurma, Curso curso) {
+        this.anoTurma = anoTurma;
+        this.curso = curso;
+        this.estudantes = new ArrayList<>();
+    }
+
+    public void adicionarEstudante(Estudante estudante) {
+        estudantes.add(estudante);
+    }
+
+    public ArrayList<Estudante> getEstudantes() {
+        return estudantes;
+    }
+
+    public int getAnoTurma() {
+        return anoTurma;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+}
+
+
+
+
+
+
+// Classe HorarioTurma  
+class HorarioTurma {
+    private Turma turma;
+    private String diaSemana;
+    private String horarioInicio;
+    private String horarioFim;
+    private int ano;
+    private int semestre;
+
+    public HorarioTurma(Turma turma, String diaSemana, String horarioInicio, String horarioFim, int ano, int semestre) {
+        this.turma = turma;
+        this.diaSemana = diaSemana;
+        this.horarioInicio = horarioInicio;
+        this.horarioFim = horarioFim;
+        this.ano = ano;
+        this.semestre = semestre;
+    }
+
+    public boolean isHorarioDeAula(String horarioAtual) {
+        return horarioAtual.compareTo(horarioInicio) >= 0 && horarioAtual.compareTo(horarioFim) <= 0;
+    }
+
+    public Turma getTurma() {
+        return turma;
+    }
+
+    public String getDiaSemana() {
+        return diaSemana;
+    }
+
+    public String getHorarioInicio() {
+        return horarioInicio;
+    }
+
+    public String getHorarioFim() {
+        return horarioFim;
+    }
+}
+
+
+
+
+
+
+// Classe Menu para gerenciar as operações  
+class Menu {
+    private ArrayList<Estudante> listaEstudantes;
+    private ArrayList<Curso> listaCursos;
+    private ArrayList<Turma> listaTurmas;
+    private ArrayList<HorarioTurma> horariosTurma;
+
+    public Menu() {
+        listaEstudantes = new ArrayList<>();
+        listaCursos = new ArrayList<>();
+        listaTurmas = new ArrayList<>();
+        horariosTurma = new ArrayList<>();
+    }
+
+    public void adicionarEstudante(Scanner scanner) {
+        System.out.println("Digite o nome do estudante: ");
+        String nome = scanner.nextLine();
+        System.out.println("Digite o CPF do estudante: ");
+        String cpf = scanner.nextLine();
+        System.out.println("Digite o email do estudante: ");
+        String email = scanner.nextLine();
+        System.out.println("Digite a matrícula do estudante: ");
+        int matricula = scanner.nextInt();
+        scanner.nextLine();  // Consumir quebra de linha
+        System.out.println("Digite o email do responsável: ");
+        String emailResponsavel = scanner.nextLine();
+        System.out.println("O estudante tem autorização para sair sozinho? (true/false)");
+        boolean autorizacaoPais = scanner.nextBoolean();
+
+        Estudante estudante = new Estudante(nome, cpf, email, matricula, emailResponsavel, autorizacaoPais);
+        listaEstudantes.add(estudante);
+    }
+
+    public void adicionarCurso(Scanner scanner) {
+        System.out.println("Digite o código do curso: ");
+        String codigo = scanner.nextLine();
+        System.out.println("Digite o nome do curso: ");
+        String nome = scanner.nextLine();
+        System.out.println("O curso está ativo? (true/false)");
+        boolean ativo = scanner.nextBoolean();
+
+        Curso curso = new Curso(codigo, nome, ativo);
+        listaCursos.add(curso);
+    }
+
+    public void adicionarTurma(Scanner scanner) {
+        System.out.println("Digite o ano da turma: ");
+        int anoTurma = scanner.nextInt();
+        scanner.nextLine();  // Consumir quebra de linha
+
+        System.out.println("Escolha um curso para a turma:");
+        for (int i = 0; i < listaCursos.size(); i++) {
+            System.out.println((i + 1) + ". " + listaCursos.get(i).getNome());
+        }
+        int escolhaCurso = scanner.nextInt();
+        Curso curso = listaCursos.get(escolhaCurso - 1);
+
+        Turma turma = new Turma(anoTurma, curso);
+        listaTurmas.add(turma);
+    }
+
+    public void registrarHorarioTurma(Scanner scanner) {
+        System.out.println("Escolha uma turma para registrar o horário:");
+        for (int i = 0; i < listaTurmas.size(); i++) {
+            System.out.println((i + 1) + ". Turma do curso " + listaTurmas.get(i).getCurso().getNome());
+        }
+        int escolhaTurma = scanner.nextInt();
+        scanner.nextLine();  // Consumir quebra de linha
+        Turma turma = listaTurmas.get(escolhaTurma - 1);
+
+        System.out.println("Digite o dia da semana (ex: Segunda-feira): ");
+        String diaSemana = scanner.nextLine();
+        System.out.println("Digite o horário de início (HH:MM): ");
+        String horarioInicio = scanner.nextLine();
+        System.out.println("Digite o horário de fim (HH:MM): ");
+        String horarioFim = scanner.nextLine();
+
+        System.out.println("Digite o ano: ");
+        int ano = scanner.nextInt();
+        System.out.println("Digite o semestre: ");
+        int semestre = scanner.nextInt();
+
+        HorarioTurma horario = new HorarioTurma(turma, diaSemana, horarioInicio, horarioFim, ano, semestre);
+        horariosTurma.add(horario);
+    }
+
+    public ArrayList<HorarioTurma> getHorariosTurma() {
+        return horariosTurma;
+    }
+
+    public ArrayList<Estudante> getListaEstudantes() {
+        return listaEstudantes;
+    }
+}
+
+
+
+
+
+
+
+
+// Classe para executar na portaria  
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Menu menu = new Menu();
+
+        // Adicionar dados de exemplo ou utilizar métodos para inserir manualmente via Menu
+        menu.adicionarEstudante(scanner);
+        menu.adicionarCurso(scanner);
+        menu.adicionarTurma(scanner);
+        menu.registrarHorarioTurma(scanner);
+
+        System.out.println("Digite a matrícula do estudante que deseja verificar a saída: ");
+        int matricula = scanner.nextInt();
+        scanner.nextLine();  // Consumir quebra de linha
+
+        Estudante estudante = null;
+        for (Estudante e : menu.getListaEstudantes()) {
+            if (e.getMatricula() == matricula) {
+                estudante = e;
+                break;
+            }
+        }
+
+        if (estudante == null) {
+            System.out.println("Estudante não encontrado.");
+            return;
+        }
+
+        System.out.println("Digite o horário atual (HH:MM): ");
+        String horarioAtual = scanner.nextLine();
+
+        boolean emAula = false;
+        for (HorarioTurma horario : menu.getHorariosTurma()) {
+            if (horario.isHorarioDeAula(horarioAtual)) {
+                emAula = true;
+                System.out.println("O professor faltou? (true/false)");
+                boolean professorFaltou = scanner.nextBoolean();
+
+                if (!professorFaltou) {
+                    System.out.println("Não pode sair.");
+                    return;
+                }
+                break;
+            }
+        }
+
+        if (emAula) {
+            System.out.println("Pode sair " + (estudante.isAutorizacaoPais() ? "sozinho." : "com os pais."));
+        } else {
+            System.out.println("Pode sair " + (estudante.isAutorizacaoPais() ? "sozinho." : "com os pais."));
+        }
+    }
+}
