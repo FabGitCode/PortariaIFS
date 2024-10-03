@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 // Classe Menu para gerenciar as operações
 class Menu {
     private ArrayList<Estudante> listaEstudantes;
